@@ -18,8 +18,6 @@ jobs:
         with:
           username: ${{ vars.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_TOKEN }}
+          
       - name: Push image
-        run: docker push ${{ vars.DOCKER_USERNAME }}/helloworld-demo-python:rt
-
-
-        
+        run: docker push ${{ vars.DOCKER_USERNAME }}/helloworld-demo-python:rt      
