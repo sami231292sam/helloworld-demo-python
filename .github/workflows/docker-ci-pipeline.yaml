@@ -1,4 +1,4 @@
-name: Docker-ci-pipeline
+name: Dockpipeline
 on: push
 jobs:
   dockerci-job:
