@@ -1,4 +1,4 @@
-name: Dockpipeline
+name: docker-ci-pipeline
 on: push
 jobs:
   dockerci-job:
@@ -6,26 +6,28 @@ jobs:
     steps:
       - name: Code Checkout
         uses: actions/checkout@v6
-        
       - name: Build image
-        run: docker build -t ${{ vars.DOCKER_USERNAME }}/helloworld-demo-python:rt .
-        
+        run: docker build -t ${{vars.DOCKER_USERNAME }}/helloworld-demo-python:vj .
       - name: Verify the image 
         run: docker images
-      - name: create container
-        run: docker run --name python-app -idt -p 8080:8080 ${{ vars.DOCKER_USERNAME }}/helloworld-demo-python:rt .
-      - name: view container
-        run: docker ps
-      - name: curl output
-        run: curl http://localhost:8080
  
+      - name: Create the container 
+        run: docker run --name pythonapp -idt -p 8080:8080 ${{vars.DOCKER_USERNAME }}/helloworld-demo-python:vj
+ 
+      - name: waiting time 
+        run: sleep 20
+      - name: View the container 
+        run: docker ps
+      - name: curl the container
+        run: curl -f http://localhost:8080
       - name: Docker login 
         uses: docker/login-action@v3.6.0
         with:
-          username: ${{ vars.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_TOKEN }}
-          
-      - name: Push image
-        run: docker push ${{ vars.DOCKER_USERNAME }}/helloworld-demo-python:rt  
-      - name: container cleanup
-        run: docker rm python-app
+          username: ${{vars.DOCKER_USERNAME }}
+          password: ${{secrets.DOCKER_TOKEN }}
+ 
+      - name: Push the image
+        run: docker push ${{vars.DOCKER_USERNAME }}/helloworld-demo-python:vj
+ 
+      - name: Clean the conatiner
+        run: docker rm -f pythonapp
